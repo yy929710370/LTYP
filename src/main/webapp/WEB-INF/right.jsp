@@ -15,16 +15,13 @@
             </div>
             <div class="wid-content">
                 <ul>
-                    <li><a href="#">Mad Max: Fury Road</a><span><img
-                            src="${ctx}/staticfile/images/hot.png"/></span></li>
-                    <li><a href="http://www.dytt8.net/html/gndy/dyzz/20171010/55256.html">猩球崛起3:终极之战</a><span><img
-                            src="${ctx}/staticfile/images/hot.png"/></span></li>
-                    <li><a href="#">Pound of Flesh</a><span><img
-                            src="${ctx}/staticfile/images/hot.png"/></span></li>
-                    <li><a href="#">Bloodbath Island</a><span><img
-                            src="${ctx}/staticfile/images/hot.png"/></span></li>
-                    <li><a href="#">Pound of Flesh</a><span><img
-                            src="${ctx}/staticfile/images/hot.png"/></span></li>
+                    <c:forEach items="${LinksDate}" var="p" step="1">
+                        <li>
+                                 <span>
+                                     ${p}
+                                   <img src="${ctx}/staticfile/images/hot.png"/>    </span>
+                        </li>
+                    </c:forEach>
                 </ul>
             </div>
         </div>
@@ -35,14 +32,13 @@
             </div>
             <div class="wid-content">
                 <ul>
-                    <li><a href="#">animals</a></li>
-                    <li><a href="#">ssdad</a></li>
-                    <li><a href="#">ss</a></li>
-                    <li><a href="#">asdas</a></li>
-                    <li><a href="#">asdsals</a></li>
-                    <li><a href="#">dasdas</a></li>
-                    <li><a href="#">animals</a></li>
-                    <li><a href="#">aasdasls</a></li>
+                    <c:forEach items="${map}" var="item">
+                        <c:if test="${user_login==item.key}">
+                            <c:forEach items="${item.value}" var="search">
+                                <li><a href="/movie/search?search=${search}">${search}</a></li>
+                            </c:forEach>
+                        </c:if>
+                    </c:forEach>
                 </ul>
             </div>
         </div>

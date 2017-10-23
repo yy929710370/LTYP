@@ -1,10 +1,9 @@
 package cn.vworld.service;
 
-import cn.vworld.bean.Type;
-import cn.vworld.bean.User;
-import cn.vworld.bean.UserInfo;
+import cn.vworld.bean.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -71,12 +70,12 @@ public interface UserService {
      * 显示用户列表
      * @return
      */
-    List<User> findAllUser();
+    List<User> findAllUser(int showpage, int lines);
 
     /**
      * 按照用户名查询
      *
-     * @param i
+     * @param
      * @param lines
      *@param username  @return List<User>
      */
@@ -129,7 +128,35 @@ public interface UserService {
      */
     User checkUsername(String username);
 
+
     int findUserNumBykey(String key);
 
     List<User> findUserListByKey(int showpage, int lines, String key);
+
+    int findAllUserNum();
+
+
+
+    /**
+     * 通过表类型下载电影信息表数据
+     * @param map 传递表类型
+     * @return
+     */
+    List<MovieInfo> downLoadFilmList(HashMap<String, String> map);
+
+    /**
+     * 通过表类型下载用户表数据
+     * @param map 传递表类型
+     * @return
+     */
+    List<User> downLoadUserList(HashMap<String, String> map);
+
+    /**
+     * 查询数据库看看email是否存在
+     *
+     * @param email 传入的email
+     * @return 查到的User对象
+     */
+    User checkEmailExist(String email);
+
 }

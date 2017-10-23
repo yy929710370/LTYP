@@ -1,11 +1,10 @@
 package cn.vworld.service;
 
-import cn.vworld.bean.Type;
-import cn.vworld.bean.User;
-import cn.vworld.bean.UserInfo;
+import cn.vworld.bean.*;
 import cn.vworld.mapper.RoleUserMapper;
 import cn.vworld.mapper.UserInfoMapper;
 import cn.vworld.mapper.UserMapper;
+import cn.vworld.tool.Md5HashPassword;
 import cn.vworld.utils.SendMail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import static org.apache.shiro.web.filter.mgt.DefaultFilter.user;
 
 @Service
 @Transactional
@@ -54,6 +56,18 @@ public class UserServiceImpl implements UserService{
         return userMapper.findfindUserListByKey(showpage, lines, key);
     }
 
+    @Override
+    public User checkEmailExist(String email) {
+        return userMapper.checkEmailExist(email);
+    }
+
+    @Override
+    public int findAllUserNum() {
+        return userMapper.findAllUserNum();
+    }
+
+
+
 
     @Override
     public void saveUser(User user,UserInfo userInfo) {
@@ -61,6 +75,7 @@ public class UserServiceImpl implements UserService{
         user.setCreateTime(new Date());
         user.setState(0);
         user.setBan(0);
+        user.setPassword(Md5HashPassword.getMd5Hash(user.getPassword(), user.getUsername()));
         userMapper.saveUser(user);
         roleUserMapper.saveNormalRole(user.getUserId());
         userInfo.setUserInfoId(user.getUserId());
@@ -79,99 +94,6 @@ public class UserServiceImpl implements UserService{
     public void updateBan(String userId, Integer ban) {
         userMapper.updateBan(userId, ban);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -198,10 +120,12 @@ public class UserServiceImpl implements UserService{
         return userMapper.findUserByEmail(to);
     }
 
+
     @Override
-    public List<User> findAllUser() {
-        return userMapper.findAllUser();
+    public List<User> findAllUser(int showpage, int lines) {
+        return userMapper.findAllUser(showpage, lines);
     }
+
 
     @Override
     public List<User> findUserByUsername(int showpage, int lines, String username) {
@@ -252,5 +176,18 @@ public class UserServiceImpl implements UserService{
         }
         userInfo.setUpdateTime(new Date());
         userInfoMapper.updateUserInfo(userInfo);
+    }
+
+
+    @Override
+    public List<MovieInfo> downLoadFilmList(HashMap<String, String> map) {
+        List<MovieInfo> list=userMapper.downLoadFilmList(map);
+        return list;
+    }
+
+    @Override
+    public List<User> downLoadUserList(HashMap<String, String> map) {
+        List<User> list=userMapper.downLoadUserList(map);
+        return list;
     }
 }

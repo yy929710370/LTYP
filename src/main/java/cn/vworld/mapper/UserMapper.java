@@ -1,11 +1,10 @@
 package cn.vworld.mapper;
 
-import cn.vworld.bean.Role;
-import cn.vworld.bean.Type;
-import cn.vworld.bean.User;
+import cn.vworld.bean.*;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.shiro.web.filter.mgt.DefaultFilter;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface UserMapper {
@@ -26,7 +25,7 @@ public interface UserMapper {
     //根据用户邮箱查找用户
     User findUserByEmail(String email);
     //显示全用户列表
-    List<User> findAllUser();
+    List<User> findAllUser(@Param("showpage") int showpage, @Param("lines") int lines);
     //根据用户名查找用户，显示在用户列表
     List<User> findUserByUsername(@Param("showpage") int showpage, @Param("lines") int lines, @Param("username") String username);
     //显示管理员列表
@@ -52,4 +51,17 @@ public interface UserMapper {
     int findUserNumByKey(String key);
 
     List<User> findfindUserListByKey(@Param("showpage") int showpage, @Param("lines") int lines, @Param("key") String key);
+
+    int findAllUserNum();
+
+    
+
+    List<MovieInfo> downLoadFilmList(HashMap<String, String> map);
+
+
+    List<User> downLoadUserList(HashMap<String, String> map);
+
+
+    User checkEmailExist(String email);
+
 }
